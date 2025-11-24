@@ -36,8 +36,33 @@ fun InsightsScreen(
     modifier: Modifier = Modifier
 ) {
     val quakes = viewModel.earthquakes.collectAsState().value
+    val disasters = viewModel.disasters.collectAsState().value
     val isLoading = viewModel.isLoading.collectAsState().value
     var region by remember { mutableStateOf("global") }
+    val now = System.currentTimeMillis()
+
+    val strongestQuake = remember(quakes) { quakes.maxByOrNull { it.magnitude } }
+    val avgMagnitude = remember(quakes) {
+        quakes.takeIf { it.isNotEmpty() }?.map { it.magnitude }?.average()
+    }
+    val avgDepth = remember(quakes) {
+        quakes.takeIf { it.isNotEmpty() }?.map { it.depth }?.average()
+    }
+    val last24hCount = remember(quakes) {
+        quakes.count { now - it.time <= 24 * 60 * 60 * 1000 }
+    }
+    val significantQuakes = remember(quakes) {
+        quakes.sortedByDescending { it.magnitude }.take(3)
+    }
+    val totalEvents = remember(quakes, disasters) { quakes.size + disasters.size }
+    val categoryBreakdown = remember(disasters) {
+        disasters
+            .groupingBy { it.category }
+            .eachCount()
+            .entries
+            .sortedByDescending { it.value }
+            .take(4)
+    }
     
     // Wait for data to load
     LaunchedEffect(Unit) {
@@ -100,6 +125,48 @@ fun InsightsScreen(
                 onClick = { },
                 label = { Text(region.replaceFirstChar { it.uppercaseChar() }) }
             )
+        }
+
+        // Snapshot metrics
+        Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                InsightMetricCard(
+                    title = "Strongest quake",
+                    value = strongestQuake?.magnitude?.format(1) ?: "--",
+                    subtitle = strongestQuake?.place ?: "No recent data",
+                    accent = EarthquakeRed,
+                    modifier = Modifier.weight(1f)
+                )
+                InsightMetricCard(
+                    title = "Avg magnitude",
+                    value = avgMagnitude?.format(1) ?: "--",
+                    subtitle = "$last24hCount events in 24h",
+                    accent = LimeGreen,
+                    modifier = Modifier.weight(1f)
+                )
+            }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                InsightMetricCard(
+                    title = "Avg depth",
+                    value = avgDepth?.let { "${it.format(0)} km" } ?: "--",
+                    subtitle = "Based on ${quakes.size} quakes",
+                    accent = FloodBlue,
+                    modifier = Modifier.weight(1f)
+                )
+                InsightMetricCard(
+                    title = "Tracked events",
+                    value = totalEvents.toString(),
+                    subtitle = "Earth & space sources",
+                    accent = StormCyan,
+                    modifier = Modifier.weight(1f)
+                )
+            }
         }
 
         // Frequency chart with real data
@@ -198,34 +265,61 @@ fun InsightsScreen(
             title = "Disasters by Category",
             modifier = Modifier.fillMaxWidth()
         ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(250.dp),
-                horizontalArrangement = Arrangement.SpaceEvenly,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                listOf(
-                    Pair("Earthquakes", EarthquakeRed),
-                    Pair("Wildfires", WildfireOrange),
-                    Pair("Storms", StormCyan),
-                    Pair("Floods", FloodBlue)
-                ).forEach { (label, color) ->
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        Box(
-                            modifier = Modifier
-                                .size(60.dp)
-                                .background(color, CircleShape)
-                        )
-                        Text(
-                            text = label,
-                            fontSize = 10.sp,
-                            color = TextSecondary
-                        )
+            if (categoryBreakdown.isEmpty()) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(120.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text("No active disaster data yet", color = TextSecondary)
+                }
+            } else {
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    val total = categoryBreakdown.sumOf { it.value }.coerceAtLeast(1)
+                    categoryBreakdown.forEach { (category, count) ->
+                        Column(
+                            verticalArrangement = Arrangement.spacedBy(4.dp)
+                        ) {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                Text(category, color = TextPrimary, fontWeight = FontWeight.Medium, fontSize = 14.sp)
+                                Text("$count active", color = TextSecondary, fontSize = 12.sp)
+                            }
+                            LinearProgressIndicator(
+                                progress = count / total.toFloat(),
+                                color = categoryColor(category),
+                                trackColor = categoryColor(category).copy(alpha = 0.2f),
+                                modifier = Modifier.fillMaxWidth()
+                            )
+                        }
                     }
+                }
+            }
+        }
+
+        // Significant events
+        ChartCard(
+            title = "Significant Events",
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                significantQuakes.forEachIndexed { index, quake ->
+                    SignificantEventItem(
+                        rank = index + 1,
+                        title = quake.place,
+                        magnitude = quake.magnitude,
+                        depth = quake.depth,
+                        timeAgo = timeAgo(now - quake.time)
+                    )
                 }
             }
         }
@@ -333,6 +427,86 @@ fun LegendItem(label: String, color: Color) {
             color = TextSecondary,
             fontWeight = FontWeight.Medium
         )
+    }
+}
+
+@Composable
+fun InsightMetricCard(
+    title: String,
+    value: String,
+    subtitle: String,
+    accent: Color,
+    modifier: Modifier = Modifier
+) {
+    LiquidGlass(
+        modifier = modifier,
+        cornerRadius = 24.dp
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(6.dp)
+        ) {
+            Text(text = title, color = TextSecondary, fontSize = 12.sp)
+            Text(
+                text = value,
+                color = accent,
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold
+            )
+            Text(text = subtitle, color = TextPrimary, fontSize = 12.sp)
+        }
+    }
+}
+
+@Composable
+fun SignificantEventItem(
+    rank: Int,
+    title: String,
+    magnitude: Double,
+    depth: Double,
+    timeAgo: String
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Box(
+            modifier = Modifier
+                .size(36.dp)
+                .background(LimeGreen.copy(alpha = 0.15f), CircleShape),
+            contentAlignment = Alignment.Center
+        ) {
+            Text("#$rank", color = TextPrimary, fontWeight = FontWeight.SemiBold, fontSize = 12.sp)
+        }
+        Column(
+            modifier = Modifier.weight(1f)
+        ) {
+            Text(title, color = TextPrimary, fontSize = 14.sp, fontWeight = FontWeight.SemiBold)
+            Text("M ${magnitude.format(1)} • ${depth.format(0)} km • $timeAgo", color = TextSecondary, fontSize = 11.sp)
+        }
+    }
+}
+
+private fun Double.format(decimals: Int): String = "%.${decimals}f".format(this)
+
+private fun categoryColor(category: String): Color = when {
+    category.contains("fire", ignoreCase = true) -> WildfireOrange
+    category.contains("storm", ignoreCase = true) || category.contains("cyclone", ignoreCase = true) -> StormCyan
+    category.contains("flood", ignoreCase = true) -> FloodBlue
+    category.contains("volcano", ignoreCase = true) -> VolcanoPurple
+    else -> EarthquakeRed
+}
+
+private fun timeAgo(durationMillis: Long): String {
+    val hours = durationMillis / (1000 * 60 * 60)
+    val days = hours / 24
+    return when {
+        hours < 1 -> "moments ago"
+        hours < 24 -> "$hours h ago"
+        else -> "${days}d ago"
     }
 }
 

@@ -11,6 +11,7 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
@@ -19,9 +20,18 @@ private val LightColorScheme = lightColorScheme(
     primary = LimeGreen,
     onPrimary = Black,
     background = BackgroundLight,
-    onBackground = TextPrimary,
+    onBackground = Color(0xFF0F0F0F),
     surface = White,
-    onSurface = TextPrimary
+    onSurface = Color(0xFF0F0F0F)
+)
+
+private val DarkColorScheme = darkColorScheme(
+    primary = LimeGreen,
+    onPrimary = Black,
+    background = BackgroundDark,
+    onBackground = Color(0xFFF6F6F6),
+    surface = SurfaceDark,
+    onSurface = Color(0xFFF6F6F6)
 )
 
 @Composable
@@ -35,7 +45,7 @@ fun GeoXTheme(
             val context = LocalContext.current
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
-        darkTheme -> darkColorScheme()
+        darkTheme -> DarkColorScheme
         else -> LightColorScheme
     }
     val view = LocalView.current

@@ -170,11 +170,15 @@ fun AlertDetailModal(
                 LiquidGlass(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(200.dp),
+                        .height(132.dp),
                     subtle = true,
                     cornerRadius = 20.dp
                 ) {
-                    Box(modifier = Modifier.fillMaxSize()) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(8.dp)
+                    ) {
                         com.geox.app.ui.components.MapView(
                             points = listOf(disaster),
                             selectedDisaster = disaster,

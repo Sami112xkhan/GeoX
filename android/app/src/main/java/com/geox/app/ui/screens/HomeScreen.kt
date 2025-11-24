@@ -8,6 +8,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.runtime.remember
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -39,6 +40,7 @@ fun HomeScreen(
     var selectedDisaster by remember { mutableStateOf<DisasterData?>(null) }
     var isExpanded by remember { mutableStateOf(false) }
     var showNotifications by remember { mutableStateOf(false) }
+    var visibleDisasters by remember { mutableStateOf<List<DisasterData>>(emptyList()) }
 
     val filteredDisasters = disasters.filter {
         it.title.contains(searchQuery, ignoreCase = true) ||
@@ -101,10 +103,38 @@ fun HomeScreen(
                     userLocation = userLocation,
                     selectedDisaster = selectedDisaster,
                     onDisasterClick = onDisasterClick,
+                    onVisibleDisastersChanged = { visible ->
+                        visibleDisasters = visible
+                    },
                     modifier = Modifier.fillMaxSize()
                 )
 
-                // Last updated pill
+                // Last updated pill with nearest disaster distance
+                val nearestDistance = remember(visibleDisasters, userLocation) {
+                    // Use visible disasters if available, otherwise use all disasters
+                    val disastersToCheck = if (visibleDisasters.isNotEmpty()) visibleDisasters else disasters
+                    if (userLocation != null && disastersToCheck.isNotEmpty()) {
+                        disastersToCheck.minOfOrNull { disaster ->
+                            try {
+                                com.geox.app.utils.LocationUtils.calculateDistance(
+                                    userLocation.first,
+                                    userLocation.second,
+                                    disaster.coordinates.first,
+                                    disaster.coordinates.second
+                                )
+                            } catch (e: Exception) {
+                                Double.MAX_VALUE
+                            }
+                        }?.let { distance ->
+                            when {
+                                distance < 1.0 -> "${(distance * 1000).toInt()}m away"
+                                distance < 10.0 -> String.format("%.1f km away", distance)
+                                else -> "${distance.toInt()} km away"
+                            }
+                        }
+                    } else null
+                }
+                
                 LiquidGlass(
                     modifier = Modifier
                         .align(Alignment.TopCenter)
@@ -112,13 +142,28 @@ fun HomeScreen(
                     subtle = true,
                     cornerRadius = 20.dp
                 ) {
-                    Text(
-                        text = if (disasters.isEmpty()) "No disasters found" else "${disasters.size} disasters",
-                        fontSize = 12.sp,
-                        fontWeight = FontWeight.Medium,
-                        color = TextSecondary,
-                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
-                    )
+                    Column(
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
+                        nearestDistance?.let { distance ->
+                            Text(
+                                text = distance,
+                                fontSize = 11.sp,
+                                fontWeight = FontWeight.SemiBold,
+                                color = TextPrimary,
+                            )
+                        }
+                        Text(
+                            text = if (visibleDisasters.isNotEmpty()) "${visibleDisasters.size} disasters" 
+                                   else if (disasters.isEmpty()) "No disasters found" 
+                                   else "${disasters.size} disasters",
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Medium,
+                            color = TextSecondary
+                        )
+                    }
                 }
             }
 

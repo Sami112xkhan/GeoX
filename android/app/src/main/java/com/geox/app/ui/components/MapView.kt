@@ -7,10 +7,12 @@ import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView as OsmMapView
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.views.overlay.Overlay
+import org.osmdroid.events.MapListener
+import org.osmdroid.events.ScrollEvent
+import org.osmdroid.events.ZoomEvent
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -26,12 +28,15 @@ fun MapView(
     userLocation: Pair<Double, Double>? = null,
     selectedDisaster: DisasterData? = null,
     onDisasterClick: ((DisasterData) -> Unit)? = null,
+    onVisibleDisastersChanged: ((List<DisasterData>) -> Unit)? = null,
     modifier: Modifier = Modifier
 ) {
-    // Keep overlay instances
-    val overlay = remember { ClickableDisasterOverlay(emptyList(), onDisasterClick) }
-    val userLocationOverlay = remember(userLocation) { UserLocationOverlay(userLocation) }
+    val disasterOverlay = remember { ClickableDisasterOverlay(emptyList(), onDisasterClick) }
+    val userLocationOverlay = remember { UserLocationOverlay(null) }
     var mapRef by remember { mutableStateOf<OsmMapView?>(null) }
+    var hasCenteredOnUser by remember { mutableStateOf(false) }
+    var lastSelectedDisasterId by remember { mutableStateOf<String?>(null) }
+    val visibleCallback = rememberUpdatedState(onVisibleDisastersChanged)
 
     AndroidView(
         modifier = modifier,
@@ -43,6 +48,55 @@ fun MapView(
                 isHorizontalMapRepetitionEnabled = false
                 isVerticalMapRepetitionEnabled = false
                 mapRef = this
+                
+                // Add map listener to track visible disasters
+                val mapListener = object : MapListener {
+                    override fun onScroll(event: ScrollEvent?): Boolean {
+                        updateVisibleDisasters(disasterOverlay, visibleCallback.value)
+                        return false
+                    }
+                    
+                    override fun onZoom(event: ZoomEvent?): Boolean {
+                        updateVisibleDisasters(disasterOverlay, visibleCallback.value)
+                        return false
+                    }
+                    
+                    private fun updateVisibleDisasters(
+                        overlay: ClickableDisasterOverlay,
+                        callback: ((List<DisasterData>) -> Unit)?
+                    ) {
+                        try {
+                            val boundingBox = boundingBox ?: return
+                            val visible = overlay.points.filter { disaster ->
+                                val lat = disaster.coordinates.first
+                                val lon = disaster.coordinates.second
+                                lat >= boundingBox.latSouth && lat <= boundingBox.latNorth &&
+                                lon >= boundingBox.lonWest && lon <= boundingBox.lonEast
+                            }
+                            callback?.invoke(visible)
+                        } catch (_: Exception) {
+                        }
+                    }
+                }
+                addMapListener(mapListener)
+                
+                // Initial update
+                post {
+                    try {
+                        val boundingBox = boundingBox
+                        if (boundingBox != null) {
+                            val visible = disasterOverlay.points.filter { disaster ->
+                                val lat = disaster.coordinates.first
+                                val lon = disaster.coordinates.second
+                                lat >= boundingBox.latSouth && lat <= boundingBox.latNorth &&
+                                lon >= boundingBox.lonWest && lon <= boundingBox.lonEast
+                            }
+                            visibleCallback.value?.invoke(visible)
+                        }
+                    } catch (e: Exception) {
+                        // Ignore
+                    }
+                }
                 
                 // Center on user location if available, otherwise center on disasters
                 if (userLocation != null) {
@@ -58,26 +112,36 @@ fun MapView(
                     controller.setCenter(GeoPoint(20.0, 0.0))
                 }
                 
-                overlays.add(overlay)
+                overlays.add(disasterOverlay)
                 overlays.add(userLocationOverlay)
             }
         },
         update = { map ->
-            overlay.points = points
-            overlay.onDisasterClick = onDisasterClick
+            disasterOverlay.points = points
+            disasterOverlay.onDisasterClick = onDisasterClick
             userLocationOverlay.userLocation = userLocation
             
             // Center on selected disaster if provided
             selectedDisaster?.let { disaster ->
-                val geoPoint = GeoPoint(disaster.coordinates.first, disaster.coordinates.second)
-                map.controller.setCenter(geoPoint)
-                map.controller.setZoom(8.0)
-            } ?: run {
-                // Otherwise center on user location if available
-                if (userLocation != null) {
-                    map.controller.setCenter(GeoPoint(userLocation.first, userLocation.second))
-                    map.controller.setZoom(6.0)
+                if (lastSelectedDisasterId != disaster.id) {
+                    lastSelectedDisasterId = disaster.id
+                    val geoPoint = GeoPoint(disaster.coordinates.first, disaster.coordinates.second)
+                    map.controller.setZoom(8.0)
+                    map.controller.animateTo(geoPoint)
                 }
+            } ?: run {
+                lastSelectedDisasterId = null
+            }
+            
+            if (!hasCenteredOnUser && userLocation != null) {
+                hasCenteredOnUser = true
+                val geoPoint = GeoPoint(userLocation.first, userLocation.second)
+                map.controller.setZoom(6.0)
+                map.controller.animateTo(geoPoint)
+            }
+            
+            map.post {
+                updateVisibleDisasters(map, disasterOverlay, visibleCallback.value)
             }
             
             map.invalidate()
@@ -110,12 +174,31 @@ private class UserLocationOverlay(initialLocation: Pair<Double, Double>?) : Over
         val pj = osmv.projection
         val p = pj.toPixels(GeoPoint(loc.first, loc.second), null)
         
+        // Always draw location marker (even if slightly off-screen for smooth transitions)
         // Outer pulse ring (like Google Maps)
         c.drawCircle(p.x.toFloat(), p.y.toFloat(), 40f, outerPaint)
         // White border
         c.drawCircle(p.x.toFloat(), p.y.toFloat(), 18f, borderPaint)
         // Inner dot
         c.drawCircle(p.x.toFloat(), p.y.toFloat(), 14f, paint)
+    }
+}
+
+private fun updateVisibleDisasters(
+    map: OsmMapView,
+    overlay: ClickableDisasterOverlay,
+    callback: ((List<DisasterData>) -> Unit)?
+) {
+    try {
+        val boundingBox = map.boundingBox ?: return
+        val visible = overlay.points.filter { disaster ->
+            val lat = disaster.coordinates.first
+            val lon = disaster.coordinates.second
+            lat >= boundingBox.latSouth && lat <= boundingBox.latNorth &&
+            lon >= boundingBox.lonWest && lon <= boundingBox.lonEast
+        }
+        callback?.invoke(visible)
+    } catch (_: Exception) {
     }
 }
 

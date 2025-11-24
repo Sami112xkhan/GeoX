@@ -57,15 +57,17 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            GeoXTheme {
-                // Initialize ViewModel and Preferences
+            val userPreferences = remember { AppModule.provideUserPreferences(this@MainActivity) }
+            val isDarkModeEnabled = userPreferences.darkMode.collectAsState(initial = false).value
+
+            GeoXTheme(darkTheme = isDarkModeEnabled) {
+                // Initialize ViewModel
                 val viewModel = remember {
                     HomeViewModel(
                         comCatRepository = AppModule.provideComCatRepository(this@MainActivity),
                         disasterRepository = AppModule.provideDisasterRepository(this@MainActivity)
                     )
                 }
-                val userPreferences = remember { AppModule.provideUserPreferences(this@MainActivity) }
                 
                 // Refresh data on first launch
                 LaunchedEffect(Unit) {
@@ -228,7 +230,7 @@ class MainActivity : ComponentActivity() {
 
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = BackgroundLight
+                    color = MaterialTheme.colorScheme.background
                 ) {
                     Box(modifier = Modifier.fillMaxSize()) {
                         // Background animated orbs

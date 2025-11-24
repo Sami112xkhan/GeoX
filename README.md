@@ -97,10 +97,19 @@ app/
 
 ## Building
 
+### Debug Build
 ```bash
 cd android
 ./gradlew assembleDebug
 ```
+
+### Release Build
+```bash
+cd android
+./gradlew assembleRelease
+```
+
+See [RELEASE_GUIDE.md](RELEASE_GUIDE.md) for detailed release build instructions including signing configuration.
 
 ## Installation
 
@@ -143,6 +152,21 @@ fun provideEarthquakeRepository(context: Context): EarthquakeRepository {
 - ✅ Location-based filtering with radius
 - ✅ Scrollable screens (Settings, Insights, About)
 - ✅ Persistent settings with DataStore
+
+## Release
+
+### Current Version: 0.1.0
+
+For information about building and releasing the app:
+- **[QUICK_RELEASE.md](QUICK_RELEASE.md)** - Quick reference with build commands and release notes
+- **[RELEASE_GUIDE.md](RELEASE_GUIDE.md)** - Complete guide for building and signing APKs
+- **[RELEASE_NOTES.md](RELEASE_NOTES.md)** - Detailed release notes with all features
+
+**Quick Command:**
+```bash
+cd android
+./gradlew assembleRelease
+```
 
 ## TODO: Future Enhancements
 

@@ -1,0 +1,28 @@
+# Android
+android/.gradle/
+android/app/build/
+android/build/
+android/.idea/
+android/local.properties
+android/*.iml
+android/.DS_Store
+android/app/.cxx/
+android/app/.externalNativeBuild/
+
+# Node
+node_modules/
+dist/
+*.log
+.DS_Store
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+

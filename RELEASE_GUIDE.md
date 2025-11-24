@@ -252,13 +252,16 @@ Before publishing:
 
 ⚠️ **Important:**
 - Never commit your keystore file to version control
-- Never commit your gradle.properties with passwords
-- Add to .gitignore:
+- Never commit gradle.properties files containing passwords or sensitive credentials
+- Add to .gitignore (if using local gradle.properties for signing):
   ```
   *.jks
   *.keystore
-  gradle.properties
+  android/local.properties
+  # Only add if you store credentials in gradle.properties
+  # android/gradle.properties
   ```
+- Alternative: Use environment variables or a secure key management system for CI/CD
 - Store keystore and passwords securely for future releases
 
 ---

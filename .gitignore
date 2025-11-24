@@ -1,4 +1,13 @@
 # Android
+*.iml
+.gradle
+/local.properties
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
 android/.gradle/
 android/app/build/
 android/build/
@@ -8,12 +17,17 @@ android/*.iml
 android/.DS_Store
 android/app/.cxx/
 android/app/.externalNativeBuild/
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
 
 # Node
 node_modules/
 dist/
 *.log
-.DS_Store
 
 # IDE
 .idea/
@@ -23,6 +37,4 @@ dist/
 *~
 
 # OS
-.DS_Store
 Thumbs.db
-

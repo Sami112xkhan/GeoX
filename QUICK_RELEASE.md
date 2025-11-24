@@ -99,8 +99,8 @@ We're excited to announce the first public release of GeoX - your real-time disa
 - `POST_NOTIFICATIONS` - For earthquake alerts (optional)
 
 #### 🌐 Data Sources
-- **USGS Earthquake API**: earthquake.usgs.gov (free, no API key required)
-- **NASA EONET API**: eonet.gsfc.nasa.gov (free, no API key required)
+- **USGS Earthquake API**: https://earthquake.usgs.gov (free, no API key required)
+- **NASA EONET API**: https://eonet.gsfc.nasa.gov (free, no API key required)
 
 #### 🔮 Coming Soon
 - WorkManager for background updates

@@ -96,8 +96,8 @@ We're thrilled to introduce **GeoX** - your comprehensive real-time disaster int
 - **Navigation Compose**: Screen navigation
 
 ### Data Sources
-- **USGS Earthquake API**: earthquake.usgs.gov
-- **NASA EONET API**: eonet.gsfc.nasa.gov
+- **USGS Earthquake API**: https://earthquake.usgs.gov
+- **NASA EONET API**: https://eonet.gsfc.nasa.gov
 - Both APIs are free and require no authentication
 
 ---

@@ -54,16 +54,22 @@ The signing configuration needs to be added to `android/app/build.gradle.kts` in
 ```kotlin
 signingConfigs {
     create("release") {
-        storeFile = file(project.properties["GEOX_RELEASE_STORE_FILE"] as String? ?: "")
-        storePassword = project.properties["GEOX_RELEASE_STORE_PASSWORD"] as String? ?: ""
-        keyAlias = project.properties["GEOX_RELEASE_KEY_ALIAS"] as String? ?: ""
-        keyPassword = project.properties["GEOX_RELEASE_KEY_PASSWORD"] as String? ?: ""
+        val keystoreFile = project.properties["GEOX_RELEASE_STORE_FILE"] as String?
+        if (keystoreFile != null && file(keystoreFile).exists()) {
+            storeFile = file(keystoreFile)
+            storePassword = project.properties["GEOX_RELEASE_STORE_PASSWORD"] as String?
+            keyAlias = project.properties["GEOX_RELEASE_KEY_ALIAS"] as String?
+            keyPassword = project.properties["GEOX_RELEASE_KEY_PASSWORD"] as String?
+        }
     }
 }
 
 buildTypes {
     release {
-        signingConfig = signingConfigs.getByName("release")
+        // Only use signing config if keystore is configured
+        if (signingConfigs.getByName("release").storeFile != null) {
+            signingConfig = signingConfigs.getByName("release")
+        }
         isMinifyEnabled = true
         proguardFiles(
             getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -72,6 +78,9 @@ buildTypes {
     }
 }
 ```
+
+**Note:** If signing properties are not configured, the build will still succeed but create an unsigned APK.
+
 
 ### Step 4: Build Signed Release APK
 
@@ -253,14 +262,19 @@ Before publishing:
 ⚠️ **Important:**
 - Never commit your keystore file to version control
 - Never commit gradle.properties files containing passwords or sensitive credentials
+- Ensure build artifacts are excluded from version control
 - Add to .gitignore (if using local gradle.properties for signing):
   ```
   *.jks
   *.keystore
   android/local.properties
+  android/.gradle/
+  android/build/
+  android/app/build/
   # Only add if you store credentials in gradle.properties
   # android/gradle.properties
   ```
+  **Note:** The repository's .gitignore should already include these patterns.
 - Alternative: Use environment variables or a secure key management system for CI/CD
 - Store keystore and passwords securely for future releases
 

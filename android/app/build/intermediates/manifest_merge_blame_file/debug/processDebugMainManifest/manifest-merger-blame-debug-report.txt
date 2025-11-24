@@ -1,0 +1,208 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.geox.app"
+4    android:versionCode="1"
+5    android:versionName="0.1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="26"
+9        android:targetSdkVersion="35" />
+10
+11    <uses-permission android:name="android.permission.INTERNET" />
+11-->/Users/samikhan/Developer/Geo X ui Cursor/android/app/src/main/AndroidManifest.xml:5:5-67
+11-->/Users/samikhan/Developer/Geo X ui Cursor/android/app/src/main/AndroidManifest.xml:5:22-64
+12    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+12-->/Users/samikhan/Developer/Geo X ui Cursor/android/app/src/main/AndroidManifest.xml:6:5-79
+12-->/Users/samikhan/Developer/Geo X ui Cursor/android/app/src/main/AndroidManifest.xml:6:22-76
+13    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+13-->/Users/samikhan/Developer/Geo X ui Cursor/android/app/src/main/AndroidManifest.xml:7:5-79
+13-->/Users/samikhan/Developer/Geo X ui Cursor/android/app/src/main/AndroidManifest.xml:7:22-76
+14    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+14-->/Users/samikhan/Developer/Geo X ui Cursor/android/app/src/main/AndroidManifest.xml:8:5-81
+14-->/Users/samikhan/Developer/Geo X ui Cursor/android/app/src/main/AndroidManifest.xml:8:22-78
+15
+16    <permission
+16-->[androidx.core:core:1.12.0] /Users/samikhan/.gradle/caches/transforms-3/fa60195c76103026989bd7d026b35efc/transformed/core-1.12.0/AndroidManifest.xml:22:5-24:47
+17        android:name="com.geox.app.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+17-->[androidx.core:core:1.12.0] /Users/samikhan/.gradle/caches/transforms-3/fa60195c76103026989bd7d026b35efc/transformed/core-1.12.0/AndroidManifest.xml:23:9-81
+18        android:protectionLevel="signature" />
+18-->[androidx.core:core:1.12.0] /Users/samikhan/.gradle/caches/transforms-3/fa60195c76103026989bd7d026b35efc/transformed/core-1.12.0/AndroidManifest.xml:24:9-44
+19
+20    <uses-permission android:name="com.geox.app.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+20-->[androidx.core:core:1.12.0] /Users/samikhan/.gradle/caches/transforms-3/fa60195c76103026989bd7d026b35efc/transformed/core-1.12.0/AndroidManifest.xml:26:5-97
+20-->[androidx.core:core:1.12.0] /Users/samikhan/.gradle/caches/transforms-3/fa60195c76103026989bd7d026b35efc/transformed/core-1.12.0/AndroidManifest.xml:26:22-94
+21
+22    <supports-screens
+22-->[org.osmdroid:osmdroid-android:6.1.18] /Users/samikhan/.gradle/caches/transforms-3/23ab1173d1a46f669d71d670fa5e4699/transformed/osmdroid-android-6.1.18/AndroidManifest.xml:9:5-12:40
+23        android:anyDensity="true"
+23-->[org.osmdroid:osmdroid-android:6.1.18] /Users/samikhan/.gradle/caches/transforms-3/23ab1173d1a46f669d71d670fa5e4699/transformed/osmdroid-android-6.1.18/AndroidManifest.xml:10:9-34
+24        android:largeScreens="true"
+24-->[org.osmdroid:osmdroid-android:6.1.18] /Users/samikhan/.gradle/caches/transforms-3/23ab1173d1a46f669d71d670fa5e4699/transformed/osmdroid-android-6.1.18/AndroidManifest.xml:11:9-36
+25        android:normalScreens="true" />
+25-->[org.osmdroid:osmdroid-android:6.1.18] /Users/samikhan/.gradle/caches/transforms-3/23ab1173d1a46f669d71d670fa5e4699/transformed/osmdroid-android-6.1.18/AndroidManifest.xml:12:9-37
+26
+27    <uses-feature
+27-->[org.osmdroid:osmdroid-android:6.1.18] /Users/samikhan/.gradle/caches/transforms-3/23ab1173d1a46f669d71d670fa5e4699/transformed/osmdroid-android-6.1.18/AndroidManifest.xml:14:5-16:36
+28        android:name="android.hardware.location.network"
+28-->[org.osmdroid:osmdroid-android:6.1.18] /Users/samikhan/.gradle/caches/transforms-3/23ab1173d1a46f669d71d670fa5e4699/transformed/osmdroid-android-6.1.18/AndroidManifest.xml:15:9-57
+29        android:required="false" />
+29-->[org.osmdroid:osmdroid-android:6.1.18] /Users/samikhan/.gradle/caches/transforms-3/23ab1173d1a46f669d71d670fa5e4699/transformed/osmdroid-android-6.1.18/AndroidManifest.xml:16:9-33
+30    <uses-feature
+30-->[org.osmdroid:osmdroid-android:6.1.18] /Users/samikhan/.gradle/caches/transforms-3/23ab1173d1a46f669d71d670fa5e4699/transformed/osmdroid-android-6.1.18/AndroidManifest.xml:17:5-19:36
+31        android:name="android.hardware.location.gps"
+31-->[org.osmdroid:osmdroid-android:6.1.18] /Users/samikhan/.gradle/caches/transforms-3/23ab1173d1a46f669d71d670fa5e4699/transformed/osmdroid-android-6.1.18/AndroidManifest.xml:18:9-53
+32        android:required="false" />
+32-->[org.osmdroid:osmdroid-android:6.1.18] /Users/samikhan/.gradle/caches/transforms-3/23ab1173d1a46f669d71d670fa5e4699/transformed/osmdroid-android-6.1.18/AndroidManifest.xml:19:9-33
+33    <uses-feature
+33-->[org.osmdroid:osmdroid-android:6.1.18] /Users/samikhan/.gradle/caches/transforms-3/23ab1173d1a46f669d71d670fa5e4699/transformed/osmdroid-android-6.1.18/AndroidManifest.xml:20:5-22:36
+34        android:name="android.hardware.telephony"
+34-->[org.osmdroid:osmdroid-android:6.1.18] /Users/samikhan/.gradle/caches/transforms-3/23ab1173d1a46f669d71d670fa5e4699/transformed/osmdroid-android-6.1.18/AndroidManifest.xml:21:9-50
+35        android:required="false" />
+35-->[org.osmdroid:osmdroid-android:6.1.18] /Users/samikhan/.gradle/caches/transforms-3/23ab1173d1a46f669d71d670fa5e4699/transformed/osmdroid-android-6.1.18/AndroidManifest.xml:22:9-33
+36    <uses-feature
+36-->[org.osmdroid:osmdroid-android:6.1.18] /Users/samikhan/.gradle/caches/transforms-3/23ab1173d1a46f669d71d670fa5e4699/transformed/osmdroid-android-6.1.18/AndroidManifest.xml:23:5-25:36
+37        android:name="android.hardware.wifi"
+37-->[org.osmdroid:osmdroid-android:6.1.18] /Users/samikhan/.gradle/caches/transforms-3/23ab1173d1a46f669d71d670fa5e4699/transformed/osmdroid-android-6.1.18/AndroidManifest.xml:24:9-45
+38        android:required="false" />
+38-->[org.osmdroid:osmdroid-android:6.1.18] /Users/samikhan/.gradle/caches/transforms-3/23ab1173d1a46f669d71d670fa5e4699/transformed/osmdroid-android-6.1.18/AndroidManifest.xml:25:9-33
+39
+40    <application
+40-->/Users/samikhan/Developer/Geo X ui Cursor/android/app/src/main/AndroidManifest.xml:10:5-25:19
+41        android:allowBackup="true"
+41-->/Users/samikhan/Developer/Geo X ui Cursor/android/app/src/main/AndroidManifest.xml:11:9-35
+42        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+42-->[androidx.core:core:1.12.0] /Users/samikhan/.gradle/caches/transforms-3/fa60195c76103026989bd7d026b35efc/transformed/core-1.12.0/AndroidManifest.xml:28:18-86
+43        android:debuggable="true"
+44        android:extractNativeLibs="false"
+45        android:label="@string/app_name"
+45-->/Users/samikhan/Developer/Geo X ui Cursor/android/app/src/main/AndroidManifest.xml:12:9-41
+46        android:supportsRtl="true"
+46-->/Users/samikhan/Developer/Geo X ui Cursor/android/app/src/main/AndroidManifest.xml:13:9-35
+47        android:theme="@style/Theme.GeoX" >
+47-->/Users/samikhan/Developer/Geo X ui Cursor/android/app/src/main/AndroidManifest.xml:14:9-42
+48        <activity
+48-->/Users/samikhan/Developer/Geo X ui Cursor/android/app/src/main/AndroidManifest.xml:16:9-24:20
+49            android:name="com.geox.app.MainActivity"
+49-->/Users/samikhan/Developer/Geo X ui Cursor/android/app/src/main/AndroidManifest.xml:17:13-41
+50            android:exported="true"
+50-->/Users/samikhan/Developer/Geo X ui Cursor/android/app/src/main/AndroidManifest.xml:18:13-36
+51            android:theme="@style/Theme.GeoX" >
+51-->/Users/samikhan/Developer/Geo X ui Cursor/android/app/src/main/AndroidManifest.xml:19:13-46
+52            <intent-filter>
+52-->/Users/samikhan/Developer/Geo X ui Cursor/android/app/src/main/AndroidManifest.xml:20:13-23:29
+53                <action android:name="android.intent.action.MAIN" />
+53-->/Users/samikhan/Developer/Geo X ui Cursor/android/app/src/main/AndroidManifest.xml:21:17-69
+53-->/Users/samikhan/Developer/Geo X ui Cursor/android/app/src/main/AndroidManifest.xml:21:25-66
+54
+55                <category android:name="android.intent.category.LAUNCHER" />
+55-->/Users/samikhan/Developer/Geo X ui Cursor/android/app/src/main/AndroidManifest.xml:22:17-77
+55-->/Users/samikhan/Developer/Geo X ui Cursor/android/app/src/main/AndroidManifest.xml:22:27-74
+56            </intent-filter>
+57        </activity>
+58        <activity
+58-->[com.google.android.gms:play-services-base:18.1.0] /Users/samikhan/.gradle/caches/transforms-3/f1e1dd0c025a3ecef6f9428eb0912517/transformed/play-services-base-18.1.0/AndroidManifest.xml:20:9-22:45
+59            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+59-->[com.google.android.gms:play-services-base:18.1.0] /Users/samikhan/.gradle/caches/transforms-3/f1e1dd0c025a3ecef6f9428eb0912517/transformed/play-services-base-18.1.0/AndroidManifest.xml:20:19-85
+60            android:exported="false"
+60-->[com.google.android.gms:play-services-base:18.1.0] /Users/samikhan/.gradle/caches/transforms-3/f1e1dd0c025a3ecef6f9428eb0912517/transformed/play-services-base-18.1.0/AndroidManifest.xml:22:19-43
+61            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+61-->[com.google.android.gms:play-services-base:18.1.0] /Users/samikhan/.gradle/caches/transforms-3/f1e1dd0c025a3ecef6f9428eb0912517/transformed/play-services-base-18.1.0/AndroidManifest.xml:21:19-78
+62
+63        <meta-data
+63-->[com.google.android.gms:play-services-basement:18.1.0] /Users/samikhan/.gradle/caches/transforms-3/c05b94829ed40779a350fb8f9be55cd0/transformed/play-services-basement-18.1.0/AndroidManifest.xml:21:9-23:69
+64            android:name="com.google.android.gms.version"
+64-->[com.google.android.gms:play-services-basement:18.1.0] /Users/samikhan/.gradle/caches/transforms-3/c05b94829ed40779a350fb8f9be55cd0/transformed/play-services-basement-18.1.0/AndroidManifest.xml:22:13-58
+65            android:value="@integer/google_play_services_version" />
+65-->[com.google.android.gms:play-services-basement:18.1.0] /Users/samikhan/.gradle/caches/transforms-3/c05b94829ed40779a350fb8f9be55cd0/transformed/play-services-basement-18.1.0/AndroidManifest.xml:23:13-66
+66
+67        <activity
+67-->[androidx.compose.ui:ui-tooling-android:1.6.0] /Users/samikhan/.gradle/caches/transforms-3/0fde1e8a420711a179aae3e61ad5e748/transformed/ui-tooling-release/AndroidManifest.xml:23:9-25:39
+68            android:name="androidx.compose.ui.tooling.PreviewActivity"
+68-->[androidx.compose.ui:ui-tooling-android:1.6.0] /Users/samikhan/.gradle/caches/transforms-3/0fde1e8a420711a179aae3e61ad5e748/transformed/ui-tooling-release/AndroidManifest.xml:24:13-71
+69            android:exported="true" />
+69-->[androidx.compose.ui:ui-tooling-android:1.6.0] /Users/samikhan/.gradle/caches/transforms-3/0fde1e8a420711a179aae3e61ad5e748/transformed/ui-tooling-release/AndroidManifest.xml:25:13-36
+70
+71        <provider
+71-->[androidx.emoji2:emoji2:1.3.0] /Users/samikhan/.gradle/caches/transforms-3/e3341a852e63fe7201effa811e7137c4/transformed/emoji2-1.3.0/AndroidManifest.xml:24:9-32:20
+72            android:name="androidx.startup.InitializationProvider"
+72-->[androidx.emoji2:emoji2:1.3.0] /Users/samikhan/.gradle/caches/transforms-3/e3341a852e63fe7201effa811e7137c4/transformed/emoji2-1.3.0/AndroidManifest.xml:25:13-67
+73            android:authorities="com.geox.app.androidx-startup"
+73-->[androidx.emoji2:emoji2:1.3.0] /Users/samikhan/.gradle/caches/transforms-3/e3341a852e63fe7201effa811e7137c4/transformed/emoji2-1.3.0/AndroidManifest.xml:26:13-68
+74            android:exported="false" >
+74-->[androidx.emoji2:emoji2:1.3.0] /Users/samikhan/.gradle/caches/transforms-3/e3341a852e63fe7201effa811e7137c4/transformed/emoji2-1.3.0/AndroidManifest.xml:27:13-37
+75            <meta-data
+75-->[androidx.emoji2:emoji2:1.3.0] /Users/samikhan/.gradle/caches/transforms-3/e3341a852e63fe7201effa811e7137c4/transformed/emoji2-1.3.0/AndroidManifest.xml:29:13-31:52
+76                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+76-->[androidx.emoji2:emoji2:1.3.0] /Users/samikhan/.gradle/caches/transforms-3/e3341a852e63fe7201effa811e7137c4/transformed/emoji2-1.3.0/AndroidManifest.xml:30:17-75
+77                android:value="androidx.startup" />
+77-->[androidx.emoji2:emoji2:1.3.0] /Users/samikhan/.gradle/caches/transforms-3/e3341a852e63fe7201effa811e7137c4/transformed/emoji2-1.3.0/AndroidManifest.xml:31:17-49
+78            <meta-data
+78-->[androidx.lifecycle:lifecycle-process:2.7.0] /Users/samikhan/.gradle/caches/transforms-3/b4f4ee90a0abd8a3bc6a29806728c9a3/transformed/lifecycle-process-2.7.0/AndroidManifest.xml:29:13-31:52
+79                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+79-->[androidx.lifecycle:lifecycle-process:2.7.0] /Users/samikhan/.gradle/caches/transforms-3/b4f4ee90a0abd8a3bc6a29806728c9a3/transformed/lifecycle-process-2.7.0/AndroidManifest.xml:30:17-78
+80                android:value="androidx.startup" />
+80-->[androidx.lifecycle:lifecycle-process:2.7.0] /Users/samikhan/.gradle/caches/transforms-3/b4f4ee90a0abd8a3bc6a29806728c9a3/transformed/lifecycle-process-2.7.0/AndroidManifest.xml:31:17-49
+81            <meta-data
+81-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/samikhan/.gradle/caches/transforms-3/9938c00ad89ad7a32149f5bba4dff91d/transformed/profileinstaller-1.3.0/AndroidManifest.xml:29:13-31:52
+82                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+82-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/samikhan/.gradle/caches/transforms-3/9938c00ad89ad7a32149f5bba4dff91d/transformed/profileinstaller-1.3.0/AndroidManifest.xml:30:17-85
+83                android:value="androidx.startup" />
+83-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/samikhan/.gradle/caches/transforms-3/9938c00ad89ad7a32149f5bba4dff91d/transformed/profileinstaller-1.3.0/AndroidManifest.xml:31:17-49
+84        </provider>
+85
+86        <activity
+86-->[androidx.compose.ui:ui-test-manifest:1.6.0] /Users/samikhan/.gradle/caches/transforms-3/5941f5bf177998e1d82916f14036a83f/transformed/ui-test-manifest-1.6.0/AndroidManifest.xml:23:9-25:39
+87            android:name="androidx.activity.ComponentActivity"
+87-->[androidx.compose.ui:ui-test-manifest:1.6.0] /Users/samikhan/.gradle/caches/transforms-3/5941f5bf177998e1d82916f14036a83f/transformed/ui-test-manifest-1.6.0/AndroidManifest.xml:24:13-63
+88            android:exported="true" />
+88-->[androidx.compose.ui:ui-test-manifest:1.6.0] /Users/samikhan/.gradle/caches/transforms-3/5941f5bf177998e1d82916f14036a83f/transformed/ui-test-manifest-1.6.0/AndroidManifest.xml:25:13-36
+89
+90        <service
+90-->[androidx.room:room-runtime:2.6.1] /Users/samikhan/.gradle/caches/transforms-3/74c0b517040a048305c921bce16a2164/transformed/room-runtime-2.6.1/AndroidManifest.xml:24:9-28:63
+91            android:name="androidx.room.MultiInstanceInvalidationService"
+91-->[androidx.room:room-runtime:2.6.1] /Users/samikhan/.gradle/caches/transforms-3/74c0b517040a048305c921bce16a2164/transformed/room-runtime-2.6.1/AndroidManifest.xml:25:13-74
+92            android:directBootAware="true"
+92-->[androidx.room:room-runtime:2.6.1] /Users/samikhan/.gradle/caches/transforms-3/74c0b517040a048305c921bce16a2164/transformed/room-runtime-2.6.1/AndroidManifest.xml:26:13-43
+93            android:exported="false" />
+93-->[androidx.room:room-runtime:2.6.1] /Users/samikhan/.gradle/caches/transforms-3/74c0b517040a048305c921bce16a2164/transformed/room-runtime-2.6.1/AndroidManifest.xml:27:13-37
+94
+95        <receiver
+95-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/samikhan/.gradle/caches/transforms-3/9938c00ad89ad7a32149f5bba4dff91d/transformed/profileinstaller-1.3.0/AndroidManifest.xml:34:9-52:20
+96            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+96-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/samikhan/.gradle/caches/transforms-3/9938c00ad89ad7a32149f5bba4dff91d/transformed/profileinstaller-1.3.0/AndroidManifest.xml:35:13-76
+97            android:directBootAware="false"
+97-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/samikhan/.gradle/caches/transforms-3/9938c00ad89ad7a32149f5bba4dff91d/transformed/profileinstaller-1.3.0/AndroidManifest.xml:36:13-44
+98            android:enabled="true"
+98-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/samikhan/.gradle/caches/transforms-3/9938c00ad89ad7a32149f5bba4dff91d/transformed/profileinstaller-1.3.0/AndroidManifest.xml:37:13-35
+99            android:exported="true"
+99-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/samikhan/.gradle/caches/transforms-3/9938c00ad89ad7a32149f5bba4dff91d/transformed/profileinstaller-1.3.0/AndroidManifest.xml:38:13-36
+100            android:permission="android.permission.DUMP" >
+100-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/samikhan/.gradle/caches/transforms-3/9938c00ad89ad7a32149f5bba4dff91d/transformed/profileinstaller-1.3.0/AndroidManifest.xml:39:13-57
+101            <intent-filter>
+101-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/samikhan/.gradle/caches/transforms-3/9938c00ad89ad7a32149f5bba4dff91d/transformed/profileinstaller-1.3.0/AndroidManifest.xml:40:13-42:29
+102                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+102-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/samikhan/.gradle/caches/transforms-3/9938c00ad89ad7a32149f5bba4dff91d/transformed/profileinstaller-1.3.0/AndroidManifest.xml:41:17-91
+102-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/samikhan/.gradle/caches/transforms-3/9938c00ad89ad7a32149f5bba4dff91d/transformed/profileinstaller-1.3.0/AndroidManifest.xml:41:25-88
+103            </intent-filter>
+104            <intent-filter>
+104-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/samikhan/.gradle/caches/transforms-3/9938c00ad89ad7a32149f5bba4dff91d/transformed/profileinstaller-1.3.0/AndroidManifest.xml:43:13-45:29
+105                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+105-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/samikhan/.gradle/caches/transforms-3/9938c00ad89ad7a32149f5bba4dff91d/transformed/profileinstaller-1.3.0/AndroidManifest.xml:44:17-85
+105-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/samikhan/.gradle/caches/transforms-3/9938c00ad89ad7a32149f5bba4dff91d/transformed/profileinstaller-1.3.0/AndroidManifest.xml:44:25-82
+106            </intent-filter>
+107            <intent-filter>
+107-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/samikhan/.gradle/caches/transforms-3/9938c00ad89ad7a32149f5bba4dff91d/transformed/profileinstaller-1.3.0/AndroidManifest.xml:46:13-48:29
+108                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+108-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/samikhan/.gradle/caches/transforms-3/9938c00ad89ad7a32149f5bba4dff91d/transformed/profileinstaller-1.3.0/AndroidManifest.xml:47:17-88
+108-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/samikhan/.gradle/caches/transforms-3/9938c00ad89ad7a32149f5bba4dff91d/transformed/profileinstaller-1.3.0/AndroidManifest.xml:47:25-85
+109            </intent-filter>
+110            <intent-filter>
+110-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/samikhan/.gradle/caches/transforms-3/9938c00ad89ad7a32149f5bba4dff91d/transformed/profileinstaller-1.3.0/AndroidManifest.xml:49:13-51:29
+111                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+111-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/samikhan/.gradle/caches/transforms-3/9938c00ad89ad7a32149f5bba4dff91d/transformed/profileinstaller-1.3.0/AndroidManifest.xml:50:17-95
+111-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/samikhan/.gradle/caches/transforms-3/9938c00ad89ad7a32149f5bba4dff91d/transformed/profileinstaller-1.3.0/AndroidManifest.xml:50:25-92
+112            </intent-filter>
+113        </receiver>
+114    </application>
+115
+116</manifest>
